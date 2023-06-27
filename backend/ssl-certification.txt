@@ -1,0 +1,2 @@
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out test-cert.crt -keyout test-cert.key
+openssl pkcs12 -export -in test-cert.crt -inkey test-cert.key -out test-cert.pfx

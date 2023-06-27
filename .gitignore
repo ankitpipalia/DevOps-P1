@@ -1,0 +1,10 @@
+.infracost/
+.terraform.lock.hcl
+.terraform/
+.DS_Store
+node_modules/
+build/
+.vscode/
+getting_started.md
+local.settings.json
+host.json

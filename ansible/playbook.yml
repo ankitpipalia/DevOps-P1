@@ -1,0 +1,73 @@
+---
+- hosts: all
+  vars:
+    project_path: ~/task-backend
+    repo_url: git@ssh.dev.azure.com:v3/ankitpipalia/Ankit-DevOps/task-backend
+    node_version: 16
+    ansible_user: root
+    NODEJS_VERSION: "16"
+  tasks:
+
+    - name: Copy Public SSH key from host
+      copy:
+       src: ~/.ssh/id_rsa.pub
+       dest: ~/.ssh/id_rsa.pub
+       owner: "{{ ansible_user }}"
+       group: "{{ ansible_user }}"
+       mode: '0600'
+
+    - name: Copy Private SSH key from host
+      copy:
+       src: ~/.ssh/id_rsa
+       dest: ~/.ssh/id_rsa
+       owner: "{{ ansible_user }}"
+       group: "{{ ansible_user }}"
+       mode: '0600'
+
+    - name: Retrieve Azure DevOps SSH host key
+      command: ssh-keyscan -H ssh.dev.azure.com
+      register: host_key_output
+
+    - name: Add Azure DevOps SSH host key to known_hosts
+      lineinfile:
+        path: ~/.ssh/known_hosts
+        line: "{{ host_key_output.stdout }}"
+        state: present
+        create: yes
+        mode: '0644'
+
+    - name: install node
+      shell: |
+       curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
+
+    - name: Install Python 2
+      apt:
+        name: python2
+        state: present
+
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+
+    - name: Clone the repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ project_path }}"
+
+    - name: Install npm dependencies
+      community.general.npm:
+        path: "{{ project_path }}"
+
+    - name: Install PM2 globally
+      community.general.npm:
+        name: pm2
+        global: yes
+
+    - name: Delete existing PM2 processes if running
+      command: "pm2 delete myapp"
+      ignore_errors: yes
+
+
+    - name: Start PM2 process
+      command: "sudo pm2 start {{ project_path }}/index.js -i 2 --name backend"
