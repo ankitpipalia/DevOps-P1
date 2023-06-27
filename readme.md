@@ -1,8 +1,3 @@
-# Ansible
-Put Virtual Machine ip-address in /etc/hosts and inventory/hosts
-SSH key will be scp to virtual machine for private repo clone
-
-
 # Frontend
 Genrate Manage Deployment Token and paste to Azure DevOps pipeline for CI/CD
 
@@ -22,6 +17,11 @@ infracost breakdown --format html --out-file cost.html --show-skipped --path .
 az ad sp create-for-rbac --name <custom-app-name> --role Contributor --scopes /subscriptions/<subscriptions-id>
 ## Uploading function to azure
 Use Azure-core and azure cli to push function
+
+
+# Ansible
+Put Virtual Machine ip-address in /etc/hosts and inventory/hosts
+SSH key will be scp to virtual machine for private repo clone
 
 
 # Function
