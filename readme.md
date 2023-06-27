@@ -8,19 +8,19 @@ Genrate Manage Deployment Token and paste to Azure DevOps pipeline for CI/CD
 
 
 # Backend
-# Create Pfx Certificate For Azure Application Gateway
+## Create Pfx Certificate For Azure Application Gateway
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out test-cert.crt -keyout test-cert.key
 openssl pkcs12 -export -in test-cert.crt -inkey test-cert.key -passout pass:test -out test-cert.pfx
 
 
 # Terraform
-# Install infracost
+## Install infracost
 curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
-# Print the Cost Of Resources
+## Print the Cost Of Resources
 infracost breakdown --format html --out-file cost.html --show-skipped --path .
-# make Azure App Registration With RBAC(Contributar Role) For Terraform Cloud
+## make Azure App Registration With RBAC(Contributar Role) For Terraform Cloud
 az ad sp create-for-rbac --name <custom-app-name> --role Contributor --scopes /subscriptions/<subscriptions-id>
-# Uploading function to azure
+## Uploading function to azure
 Use Azure-core and azure cli to push function
 
 
