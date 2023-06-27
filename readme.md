@@ -22,6 +22,11 @@ Use Azure-core and azure cli to push function
 # Ansible
 Put Virtual Machine ip-address in /etc/hosts and inventory/hosts
 SSH key will be scp to virtual machine for private repo clone
+## Ansible installtion
+apt install software-properties-common
+apt-add-repository ppa:ansible/ansible
+apt update
+apt install ansible
 
 
 # Function

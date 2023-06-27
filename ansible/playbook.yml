@@ -36,7 +36,7 @@
         create: yes
         mode: '0644'
 
-    - name: install node
+    - name: install Nodejs-16
       shell: |
        curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
 
@@ -45,12 +45,16 @@
         name: python2
         state: present
 
+    - name: use python2 as python for Linux diagnostic extension 4.0
+      shell: |
+       sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+
     - name: Install Git
       apt:
         name: git
         state: present
 
-    - name: Clone the repository
+    - name: Clone the Private repository From Azure DevOps
       git:
         repo: "{{ repo_url }}"
         dest: "{{ project_path }}"
